@@ -26,3 +26,6 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Large duplicate pickle weights (primary weights are .pt)
+models/vgg16*.pkl
