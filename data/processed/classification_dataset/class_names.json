@@ -1,0 +1,30 @@
+{
+  "0": {
+    "name": "HDPE",
+    "resin_code": 2
+  },
+  "1": {
+    "name": "LDPE",
+    "resin_code": 4
+  },
+  "2": {
+    "name": "OTHER",
+    "resin_code": 7
+  },
+  "3": {
+    "name": "PET",
+    "resin_code": 1
+  },
+  "4": {
+    "name": "PP",
+    "resin_code": 5
+  },
+  "5": {
+    "name": "PS",
+    "resin_code": 6
+  },
+  "6": {
+    "name": "PVC",
+    "resin_code": 3
+  }
+}

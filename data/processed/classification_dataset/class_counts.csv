@@ -1,0 +1,8 @@
+class_name,resin_code,train,val,test,total
+HDPE,2,51,9,9,69
+LDPE,4,58,15,15,88
+OTHER,7,42,9,11,62
+PET,1,74,15,15,104
+PP,5,114,24,24,162
+PS,6,21,6,4,31
+PVC,3,14,3,3,20
