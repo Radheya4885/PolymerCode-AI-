@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>PolymerCode AI — Polymer Identification</title>
+    <style>
+        :root {
+            --bg: #F8F9FA;
+            --card: #fff;
+            --text: #24291f;
+            --muted: #747b6c;
+            --line: #e3e7de;
+            --green: #A7C957;
+            --green-dark: #607c27;
+            --green-soft: #f0f5e5;
+            --green-pale: #fafcf6;
+            --amber: #91691c;
+            --amber-soft: #fbf4e4;
+            --red: #a8443f;
+            --red-soft: #fbedec;
+            --shadow: 0 10px 28px rgba(35, 45, 20, .06)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif
+        }
+
+        button,
+        input,
+        select {
+            font: inherit
+        }
+
+        button {
+            cursor: pointer
+        }
+
+        .app {
+            max-width: 1180px;
+            margin: auto;
+            padding: 26px
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 22px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            background: var(--green);
+            color: #263018;
+            display: grid;
+            place-items: center;
+            font-weight: 850;
+            font-size: 20px
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 20px;
+            letter-spacing: -.4px
+        }
+
+        .brand p {
+            margin: 3px 0 0;
+            color: var(--muted);
+            font-size: 12px
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            border: 1px solid #d7e5b8;
+            padding: 8px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 750;
+            white-space: nowrap
+        }
+
+        .status-pill.warning {
+            background: var(--amber-soft);
+            color: var(--amber);
+            border-color: #ebdcb9
+        }
+
+        .status-pill.error {
+            background: var(--red-soft);
+            color: var(--red);
+            border-color: #efd0cd
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green-dark)
+        }
+
+        .warning .status-dot {
+            background: #b5882d
+        }
+
+        .error .status-dot {
+            background: #c24c43
+        }
+
+        .main {
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            gap: 18px;
+            align-items: start
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            min-width: 0
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 16px
+        }
+
+        .card-sub {
+            color: var(--muted);
+            font-size: 12px;
+            margin: 6px 0 16px;
+            line-height: 1.5
+        }
+
+        .model-field {
+            margin-bottom: 14px
+        }
+
+        .model-field label,
+        .field label {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 800;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: .045em
+        }
+
+        .model-select {
+            width: 100%;
+            padding: 12px 38px 12px 12px;
+            border-radius: 11px;
+            border: 1px solid var(--line);
+            background: var(--green-pale);
+            color: var(--text);
+            outline: 0;
+            font-size: 13px
+        }
+
+        .model-select:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px #a7c9572b
+        }
+
+        .model-note {
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.45
+        }
+
+        .upload {
+            min-height: 340px;
+            border: 1.5px dashed #c5d69e;
+            border-radius: 15px;
+            background: var(--green-pale);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 22px;
+            overflow: hidden;
+            position: relative
+        }
+
+        .upload.drag {
+            border-color: var(--green-dark);
+            background: var(--green-soft)
+        }
+
+        .upload-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 18px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 26px;
+            margin-bottom: 13px
+        }
+
+        .upload h3 {
+            margin: 0 0 7px;
+            font-size: 16px
+        }
+
+        .upload p {
+            max-width: 350px;
+            margin: 0 0 15px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55
+        }
+
+        .upload img {
+            max-width: 100%;
+            max-height: 280px;
+            border-radius: 12px;
+            display: none;
+            object-fit: contain;
+            background: #f2f4ee
+        }
+
+        .primary,
+        .secondary {
+            border-radius: 11px;
+            padding: 11px 16px;
+            font-weight: 750;
+            transition: background .15s ease
+        }
+
+        .primary {
+            border: 0;
+            background: var(--green);
+            color: #263018
+        }
+
+        .primary:hover:not(:disabled) {
+            background: #b5d66a
+        }
+
+        .primary:disabled {
+            opacity: .55;
+            cursor: not-allowed
+        }
+
+        .secondary {
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--text)
+        }
+
+        .secondary:hover {
+            background: var(--green-pale)
+        }
+
+        .actions {
+            display: flex;
+            gap: 9px;
+            margin-top: 12px
+        }
+
+        .actions button {
+            flex: 1
+        }
+
+        .message {
+            margin: 9px 0 0;
+            font-size: 11px;
+            line-height: 1.4;
+            color: var(--muted)
+        }
+
+        .message.error {
+            color: var(--red)
+        }
+
+        .message.success {
+            color: var(--green-dark)
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .results {
+            display: grid;
+            gap: 12px
+        }
+
+        .result-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px
+        }
+
+        .result-badge {
+            background: var(--amber-soft);
+            color: var(--amber);
+            padding: 6px 9px;
+            border-radius: 9px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap
+        }
+
+        .result-badge.verified {
+            background: var(--green-soft);
+            color: var(--green-dark)
+        }
+
+        .result-main {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 18px
+        }
+
+        .resin-code {
+            flex: 0 0 72px;
+            width: 72px;
+            height: 72px;
+            border-radius: 16px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            display: grid;
+            place-items: center;
+            font-size: 28px;
+            font-weight: 850
+        }
+
+        .polymer-name {
+            margin: 0 0 4px;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -.4px
+        }
+
+        .polymer-full {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45
+        }
+
+        .result-model {
+            margin-top: 13px;
+            padding-top: 11px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            font-size: 11px
+        }
+
+        .result-model span:first-child {
+            color: var(--muted)
+        }
+
+        .result-model span:last-child {
+            font-weight: 750;
+            text-align: right
+        }
+
+        .confidence {
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            padding: 14px;
+            margin-top: 17px
+        }
+
+        .conf-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px
+        }
+
+        .conf-top strong {
+            font-size: 12px
+        }
+
+        .conf-top span {
+            font-size: 14px;
+            font-weight: 850;
+            color: var(--green-dark)
+        }
+
+        .track {
+            height: 8px;
+            border-radius: 99px;
+            background: #edf0e8;
+            overflow: hidden
+        }
+
+        .fill {
+            height: 100%;
+            width: 0%;
+            background: var(--green);
+            border-radius: 99px;
+            transition: width .4s ease
+        }
+
+        .probabilities {
+            margin-top: 12px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            padding: 14px
+        }
+
+        .probabilities h3 {
+            margin: 0;
+            font-size: 12px
+        }
+
+        .probability-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 13px
+        }
+
+        .prob-row {
+            display: grid;
+            grid-template-columns: 54px 1fr 42px;
+            align-items: center;
+            gap: 9px;
+            font-size: 11px
+        }
+
+        .prob-name {
+            font-weight: 750
+        }
+
+        .prob-track {
+            background: #edf0e8;
+            height: 7px;
+            border-radius: 99px;
+            overflow: hidden
+        }
+
+        .prob-fill {
+            background: #c3d990;
+            height: 100%;
+            width: 0%;
+            border-radius: 99px;
+            transition: width .3s ease
+        }
+
+        .prob-row:first-child .prob-fill {
+            background: var(--green)
+        }
+
+        .prob-value {
+            color: var(--muted);
+            text-align: right;
+            font-variant-numeric: tabular-nums
+        }
+
+        .recycle-card {
+            border: 1px solid #dce7c8;
+            background: #fcfdf9;
+            border-radius: 15px;
+            padding: 17px
+        }
+
+        .recycle-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px
+        }
+
+        .recycle-icon {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: var(--green);
+            color: #263018;
+            font-size: 17px
+        }
+
+        .recycle-heading h2 {
+            font-size: 15px
+        }
+
+        .recycle-heading p {
+            margin: 3px 0 0;
+            color: var(--muted);
+            font-size: 11px
+        }
+
+        .steps {
+            display: grid;
+            gap: 9px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            counter-reset: step
+        }
+
+        .steps li {
+            display: grid;
+            grid-template-columns: 25px 1fr;
+            gap: 9px;
+            align-items: start;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #454b3d;
+            counter-increment: step
+        }
+
+        .steps li:before {
+            content: counter(step);
+            width: 24px;
+            height: 24px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--green-soft);
+            color: var(--green-dark);
+            font-size: 11px;
+            font-weight: 850
+        }
+
+        .handling-note {
+            margin-top: 12px;
+            border-radius: 10px;
+            padding: 10px 11px;
+            background: var(--green-soft);
+            color: #536a29;
+            font-size: 11px;
+            line-height: 1.5
+        }
+
+        .handling-note strong {
+            display: block;
+            margin-bottom: 2px
+        }
+
+        .footer {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.5
+        }
+
+        @media(max-width:900px) {
+            .main {
+                grid-template-columns: 1fr
+            }
+
+            .upload {
+                min-height: 300px
+            }
+        }
+
+        @media(max-width:560px) {
+            .app {
+                padding: 16px
+            }
+
+            .header {
+                align-items: flex-start
+            }
+
+            .status-pill {
+                font-size: 10px
+            }
+
+            .brand h1 {
+                font-size: 18px
+            }
+
+            .actions {
+                flex-direction: column
+            }
+
+            .result-main {
+                align-items: flex-start
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="brand">
+                <div class="logo">P</div>
+                <div>
+                    <h1>PolymerCode AI</h1>
+                    <p>Polymer identification and recycling guidance</p>
+                </div>
+            </div>
+            <div class="status-pill warning" id="statusPill"><span class="status-dot"></span><span
+                    id="statusText">Checking AI backend…</span></div>
+        </header>
+        <main class="main">
+            <section class="card">
+                <h2>Identify a polymer</h2>
+                <p class="card-sub">Select a model and upload a resin symbol image.</p>
+                <div class="model-field"><label for="modelSelect">Classification model</label><select
+                        class="model-select" id="modelSelect">
+                        <option value="vgg16">VGG-16 · Recommended</option>
+                        <option value="vgg16_balanced">VGG-16 Balanced · Experimental</option>
+                        <option value="custom_cnn">Custom CNN</option>
+                    </select>
+                    <p class="model-note" id="modelNote">Best current tested result: 61.7% test accuracy · Macro-F1
+                        0.54.</p>
+                </div>
+                <div class="upload" id="dropzone">
+                    <div class="upload-icon" id="uploadIcon">⇧</div>
+                    <h3 id="uploadTitle">Upload resin symbol</h3>
+                    <p id="uploadText">Choose a clear image showing the recycling triangle or resin identification code.
+                    </p><input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp" hidden><button
+                        class="primary" id="chooseBtn" type="button">Choose image</button><img id="preview"
+                        alt="Uploaded resin identification symbol">
+                </div>
+                <div class="actions"><button class="primary" id="analyzeBtn" type="button" disabled>Predict
+                        polymer</button><button class="secondary" id="resetBtn" type="button">New image</button></div>
+                <p class="message" id="message" role="status" aria-live="polite"></p>
+            </section>
+            <section class="results">
+                <div class="card">
+                    <div class="result-head">
+                        <div>
+                            <h2>Prediction result</h2>
+                            <p class="card-sub" id="stateText">Waiting for an image</p>
+                        </div>
+                        <div class="result-badge" id="resultBadge">Not analyzed</div>
+                    </div>
+                    <div class="result-main">
+                        <div class="resin-code" id="resinCode">—</div>
+                        <div>
+                            <p class="polymer-name" id="polymerName">Polymer type</p>
+                            <p class="polymer-full" id="polymerFull">The predicted material will appear here.</p>
+                        </div>
+                    </div>
+                    <div class="confidence">
+                        <div class="conf-top"><strong>Prediction confidence</strong><span id="confidence">—%</span>
+                        </div>
+                        <div class="track">
+                            <div class="fill" id="confidenceFill"></div>
+                        </div>
+                    </div>
+                    <div class="result-model"><span>Model used</span><span id="modelUsed">—</span></div>
+                    <div class="probabilities">
+                        <h3>Class probabilities</h3>
+                        <div class="probability-list" id="probabilityList"></div>
+                    </div>
+                </div>
+                <section class="recycle-card">
+                    <div class="recycle-heading">
+                        <div class="recycle-icon">↻</div>
+                        <div>
+                            <h2>Recycling procedure</h2>
+                            <p id="recycleSubtitle">Procedure appears after a prediction.</p>
+                        </div>
+                    </div>
+                    <ol class="steps" id="recyclingSteps">
+                        <li>Upload an image and run the selected model.</li>
+                        <li>The predicted resin type will determine the suggested recycling route.</li>
+                    </ol>
+                    <div class="handling-note" id="handlingNote"><strong>Handling note</strong><span>Recycling
+                            acceptance varies by local facility. Confirm local requirements before disposal.</span>
+                    </div>
+                </section>
+                <p class="footer">Image classification is a prediction, not chemical verification. Confirm the resin and
+                    local recycling rules when needed.</p>
+            </section>
+        </main>
+    </div>
+    <script>
+        const API_BASE = '';
+        const MODEL_LABELS = { vgg16: 'VGG-16 · Recommended', vgg16_balanced: 'VGG-16 Balanced · Experimental', custom_cnn: 'Custom CNN' };
+        const MODEL_NOTES = { vgg16: 'Best current tested result: 61.7% test accuracy · Macro-F1 0.54.', vgg16_balanced: 'Experimental model. Validation macro-F1: 0.44; test evaluation is pending.', custom_cnn: 'Baseline model: 35.8% test accuracy · Macro-F1 0.25.' };
+        const RESINS = {
+            PET: { code: 1, full: 'Polyethylene terephthalate', steps: ['Separate PET from other plastics and remove caps, labels, and non-PET parts where required.', 'Rinse to remove leftover liquid or food; follow local sorting instructions.', 'The recycling facility sorts, shreds, washes, and processes flakes into recycled PET material.', 'Send only accepted PET items to the local collection or deposit system.'], note: 'PET bottles often have a clearer recycling route than trays or mixed-material packaging; check local rules.' },
+            HDPE: { code: 2, full: 'High-density polyethylene', steps: ['Separate HDPE containers from other resin types and empty them.', 'Rinse residue and remove non-HDPE attachments where local guidance asks.', 'The facility sorts, grinds, washes, and melts HDPE for reuse.', 'Place it in the designated plastic stream only if your local program accepts that item.'], note: 'HDPE bottles and rigid containers are often recyclable, but acceptance depends on item type and local facilities.' },
+            PVC: { code: 3, full: 'Polyvinyl chloride', steps: ['Keep PVC separate from ordinary PET, HDPE, and mixed-plastic recycling.', 'Identify the specific PVC item and check for a specialist take-back or construction-material route.', 'Deliver it only to a facility that explicitly accepts that PVC product.', 'Do not burn it or attempt home melting; use the approved handling route.'], note: 'PVC is not accepted in many household plastic recycling streams. Never burn or heat it at home.' },
+            LDPE: { code: 4, full: 'Low-density polyethylene', steps: ['Keep LDPE film or flexible packaging separate from rigid plastics.', 'Make sure films are empty and reasonably clean; remove food and non-plastic parts.', 'Take it to a film or flexible-plastic collection point if one is available.', 'Use the general waste route if the local program does not accept the item.'], note: 'Plastic film can jam sorting equipment and is often excluded from curbside bins. Check for a dedicated film collection point.' },
+            PP: { code: 5, full: 'Polypropylene', steps: ['Separate PP items from other resin types and empty the item.', 'Rinse away food or product residue and remove non-PP parts where practical.', 'The facility sorts, shreds, washes, and reprocesses accepted PP into recycled material.', 'Check whether your local program accepts the specific PP item.'], note: 'Acceptance varies by product shape, color, additives, and local sorting capability.' },
+            PS: { code: 6, full: 'Polystyrene', steps: ['Separate PS from other plastics and identify whether it is rigid PS or foam packaging.', 'Keep it clean and dry where required by the collection program.', 'Use a dedicated foam or polystyrene drop-off service if available.', 'If no local specialist route accepts it, follow local waste guidance rather than placing it in an unsuitable bin.'], note: 'Polystyrene foam is not accepted by many curbside programs. Never burn it.' },
+            OTHER: { code: 7, full: 'Other or mixed plastics', steps: ['Check the packaging label or product documentation to identify the exact resin or material blend.', 'Do not assume it can follow PET, HDPE, or another single-resin route.', 'Check with the local recycling authority or a specialist take-back program.', 'If the material cannot be identified or accepted, follow local waste guidance.'], note: 'Code 7 covers varied resins and multilayer materials; the symbol alone does not guarantee recyclability.' }
+        };
+        const CLASS_ORDER = ['HDPE', 'LDPE', 'OTHER', 'PET', 'PP', 'PS', 'PVC'];
+        const input = document.getElementById('fileInput'), chooseBtn = document.getElementById('chooseBtn'), dropzone = document.getElementById('dropzone'), preview = document.getElementById('preview'), uploadIcon = document.getElementById('uploadIcon'), uploadTitle = document.getElementById('uploadTitle'), uploadText = document.getElementById('uploadText'), analyzeBtn = document.getElementById('analyzeBtn'), resetBtn = document.getElementById('resetBtn'), modelSelect = document.getElementById('modelSelect'), modelNote = document.getElementById('modelNote'), statusPill = document.getElementById('statusPill'), statusText = document.getElementById('statusText'), message = document.getElementById('message'); let selectedFile = null, previewUrl = null, backendAvailable = false;
+        function setMessage(t, k) { message.textContent = t; message.className = 'message' + (k ? ' ' + k : '') }
+        function setStatus(t, k) { statusText.textContent = t; statusPill.className = 'status-pill' + (k === 'ready' ? '' : ' ' + k) }
+        modelSelect.addEventListener('change', () => modelNote.textContent = MODEL_NOTES[modelSelect.value]); chooseBtn.addEventListener('click', () => input.click()); input.addEventListener('change', e => { if (e.target.files && e.target.files[0]) handleFile(e.target.files[0]) });
+        ['dragenter', 'dragover'].forEach(t => dropzone.addEventListener(t, e => { e.preventDefault(); dropzone.classList.add('drag') }));['dragleave', 'drop'].forEach(t => dropzone.addEventListener(t, e => { e.preventDefault(); dropzone.classList.remove('drag') })); dropzone.addEventListener('drop', e => { const f = e.dataTransfer.files && e.dataTransfer.files[0]; if (f) handleFile(f) });
+        function handleFile(file) { if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { setMessage('Choose a JPG, PNG, or WEBP image.', 'error'); return } selectedFile = file; if (previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = URL.createObjectURL(file); preview.src = previewUrl; preview.style.display = 'block'; uploadIcon.classList.add('hidden'); uploadTitle.classList.add('hidden'); uploadText.classList.add('hidden'); chooseBtn.classList.add('hidden'); analyzeBtn.disabled = false; document.getElementById('stateText').textContent = `${file.name} · ${Math.max(1, Math.round(file.size / 1024))} KB`; setMessage('', ''); clearPrediction() }
+        async function checkHealth() { try { const r = await fetch(`${API_BASE}/api/v1/health`); if (!r.ok) throw Error(); const d = await r.json(); backendAvailable = true; setStatus(d.model_loaded === false ? 'AI model not loaded' : 'AI backend connected', d.model_loaded === false ? 'warning' : 'ready') } catch { backendAvailable = false; setStatus('Backend not connected', 'error') } }
+        function normalizeClass(v) { if (v && typeof v === 'object') v = v.class_name || v.label || v.name; if (typeof v === 'number' || (typeof v === 'string' && /^\d+$/.test(v))) { const n = Number(v); if (n >= 0 && n < CLASS_ORDER.length) return CLASS_ORDER[n] } const s = String(v || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, ''); const a = { POLYETHYLENETEREPHTHALATE: 'PET', HIGHDENSITYPOLYETHYLENE: 'HDPE', LOWDENSITYPOLYETHYLENE: 'LDPE', POLYVINYLCHLORIDE: 'PVC', POLYPROPYLENE: 'PP', POLYSTYRENE: 'PS', OTHERPLASTICS: 'OTHER' }; return RESINS[s] ? s : (a[s] || '') }
+        function extractPrediction(d) { const raw = d.class_name ?? d.predicted_class ?? d.polymer ?? d.prediction ?? d.label; let resin = normalizeClass(raw); if (!resin && d.class_index !== undefined) resin = normalizeClass(d.class_index); if (!resin && d.predicted_class_index !== undefined) resin = normalizeClass(d.predicted_class_index); let c = d.confidence ?? d.probability ?? d.score; if (c && typeof c === 'object') c = c.value ?? c.confidence; c = Number(c); if (Number.isFinite(c) && c <= 1) c *= 100; if (!Number.isFinite(c)) c = null; let p = d.probabilities ?? d.class_probabilities ?? d.scores ?? {}; if (Array.isArray(p)) p = Object.fromEntries(p.map((x, i) => typeof x === 'number' ? [CLASS_ORDER[i] || String(i), x] : [normalizeClass(x.class_name || x.label || x.name || CLASS_ORDER[i]), x.probability ?? x.score ?? x.confidence ?? 0])); const probs = {}; if (p && typeof p === 'object') for (const [k, v] of Object.entries(p)) { const cls = normalizeClass(k); let n = Number(v && typeof v === 'object' ? (v.probability ?? v.score ?? v.confidence) : v); if (cls && Number.isFinite(n)) { if (n <= 1) n *= 100; probs[cls] = Math.max(0, Math.min(100, n)) } } if (resin && c !== null && probs[resin] === undefined) probs[resin] = c; return { resin, confidence: c, probabilities: probs } }
+        analyzeBtn.addEventListener('click', async () => { if (!selectedFile) { setMessage('Choose an image first.', 'error'); return } analyzeBtn.disabled = true; setMessage('Running prediction…', ''); document.getElementById('stateText').textContent = 'Analyzing image…'; document.getElementById('resultBadge').textContent = 'Analyzing'; const fd = new FormData(); fd.append('image', selectedFile); fd.append('model', modelSelect.value); try { const r = await fetch(`${API_BASE}/api/v1/predict`, { method: 'POST', body: fd }); const d = await r.json().catch(() => ({})); if (!r.ok) throw Error(d.detail || d.message || `Prediction request failed (${r.status})`); renderPrediction(d, modelSelect.value); setMessage('Prediction complete.', 'success') } catch (e) { document.getElementById('stateText').textContent = 'Prediction unavailable'; document.getElementById('resultBadge').textContent = 'No result'; setMessage(backendAvailable ? `Could not predict: ${e.message}` : 'Connect your backend to /api/v1/health and /api/v1/predict to run real predictions.', 'error') } finally { analyzeBtn.disabled = false } });
+        function renderPrediction(d, model) { const r = extractPrediction(d); if (!r.resin || !RESINS[r.resin]) throw Error('API response needs a recognized class_name, for example PET or HDPE.'); const item = RESINS[r.resin], c = r.confidence ?? r.probabilities[r.resin] ?? null; document.getElementById('resinCode').textContent = item.code; document.getElementById('polymerName').textContent = r.resin; document.getElementById('polymerFull').textContent = item.full; document.getElementById('confidence').textContent = c === null ? '—%' : `${c.toFixed(1)}%`; document.getElementById('confidenceFill').style.width = `${c === null ? 0 : Math.min(100, Math.max(0, c))}%`; document.getElementById('modelUsed').textContent = MODEL_LABELS[model]; document.getElementById('stateText').textContent = 'Prediction complete'; document.getElementById('resultBadge').textContent = 'Predicted'; document.getElementById('resultBadge').className = 'result-badge verified'; renderProbabilities(r.probabilities, r.resin, c); renderRecycling(r.resin, item) }
+        function renderProbabilities(p, pred, c) { const rows = Object.keys(RESINS).map(n => ({ name: n, value: p[n] ?? (n === pred && c !== null ? c : 0), show: p[n] !== undefined || (n === pred && c !== null) })).sort((a, b) => b.value - a.value); const list = document.getElementById('probabilityList'); list.innerHTML = ''; rows.forEach(e => { const row = document.createElement('div'); row.className = 'prob-row'; const n = document.createElement('span'); n.className = 'prob-name'; n.textContent = e.name; const track = document.createElement('div'); track.className = 'prob-track'; const fill = document.createElement('div'); fill.className = 'prob-fill'; fill.style.width = `${Math.max(0, Math.min(100, e.value))}%`; track.appendChild(fill); const val = document.createElement('span'); val.className = 'prob-value'; val.textContent = e.show ? `${e.value.toFixed(1)}%` : '—'; row.append(n, track, val); list.appendChild(row) }) }
+        function renderRecycling(code, item) { document.getElementById('recycleSubtitle').textContent = `Suggested route for ${code} · Code ${item.code}`; const ol = document.getElementById('recyclingSteps'); ol.innerHTML = ''; item.steps.forEach(s => { const li = document.createElement('li'); li.textContent = s; ol.appendChild(li) }); const note = document.getElementById('handlingNote'); note.innerHTML = ''; const b = document.createElement('strong'); b.textContent = 'Handling note'; const s = document.createElement('span'); s.textContent = item.note; note.append(b, s) }
+        function clearPrediction() { document.getElementById('resinCode').textContent = '—'; document.getElementById('polymerName').textContent = 'Polymer type'; document.getElementById('polymerFull').textContent = 'The predicted material will appear here.'; document.getElementById('confidence').textContent = '—%'; document.getElementById('confidenceFill').style.width = '0%'; document.getElementById('modelUsed').textContent = '—'; document.getElementById('stateText').textContent = 'Waiting for an image'; document.getElementById('resultBadge').textContent = 'Not analyzed'; document.getElementById('resultBadge').className = 'result-badge'; document.getElementById('recycleSubtitle').textContent = 'Procedure appears after a prediction.'; document.getElementById('recyclingSteps').innerHTML = '<li>Upload an image and run the selected model.</li><li>The predicted resin type will determine the suggested recycling route.</li>'; document.getElementById('handlingNote').innerHTML = '<strong>Handling note</strong><span>Recycling acceptance varies by local facility. Confirm local requirements before disposal.</span>'; renderProbabilities({}, '', null) }
+        resetBtn.addEventListener('click', () => { selectedFile = null; input.value = ''; if (previewUrl) URL.revokeObjectURL(previewUrl); previewUrl = null; preview.removeAttribute('src'); preview.style.display = 'none'; uploadIcon.classList.remove('hidden'); uploadTitle.classList.remove('hidden'); uploadText.classList.remove('hidden'); chooseBtn.classList.remove('hidden'); analyzeBtn.disabled = true; clearPrediction(); setMessage('', '') }); modelNote.textContent = MODEL_NOTES[modelSelect.value]; clearPrediction(); window.addEventListener('DOMContentLoaded', checkHealth);
+    </script>
+</body>
+
+</html>

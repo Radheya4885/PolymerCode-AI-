@@ -1,0 +1,3 @@
+Dataset source: Plastic Recycle Sign — Anthony, Roboflow Universe
+https://universe.roboflow.com/anthony-q0mmp/plastic_recycle_sign
+The source page identifies a CC BY 4.0 license. Retain attribution and comply with the applicable license terms when redistributing.
