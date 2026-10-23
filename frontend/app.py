@@ -37,9 +37,9 @@ API_BASE = "http://127.0.0.1:8000"
 
 MODEL_OPTIONS = {
     "VGG-16 (Recommended · 61.7% Test Acc)": {"key": "vgg16", "file": "vgg16_best.pt"},
-    "VGG-16 Balanced (Experimental)": {"key": "vgg16_balanced", "file": "vgg16_balanced_best.pt"},
     "Custom CNN (Baseline · 35.8% Test Acc)": {"key": "custom_cnn", "file": "custom_cnn_best.pt"},
 }
+
 
 RESIN_GUIDE: dict[str, dict[str, Any]] = {
     "PET": {
