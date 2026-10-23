@@ -36,9 +36,10 @@ IMAGENET_STD = (0.229, 0.224, 0.225)
 API_BASE = "http://127.0.0.1:8000"
 
 MODEL_OPTIONS = {
-    "VGG-16 (Recommended · 61.7% Test Acc)": {"key": "vgg16", "file": "vgg16_best.pt"},
-    "Custom CNN (Baseline · 35.8% Test Acc)": {"key": "custom_cnn", "file": "custom_cnn_best.pt"},
+    "VGG-16 (Recommended · 65.4% Test Acc · 0.64 F1)": {"key": "vgg16", "file": "vgg16_best.pt"},
+    "Custom CNN (Baseline · 44.4% Test Acc · 0.41 F1)": {"key": "custom_cnn", "file": "custom_cnn_best.pt"},
 }
+
 
 
 RESIN_GUIDE: dict[str, dict[str, Any]] = {

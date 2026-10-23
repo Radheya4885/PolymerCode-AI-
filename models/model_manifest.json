@@ -83,12 +83,12 @@
   },
   "reported_results": {
     "custom_cnn_test": {
-      "accuracy": 0.358,
-      "macro_f1": 0.2532
+      "accuracy": 0.4444,
+      "macro_f1": 0.4139
     },
     "vgg16_test": {
-      "accuracy": 0.6173,
-      "macro_f1": 0.5436
+      "accuracy": 0.6543,
+      "macro_f1": 0.6425
     },
     "vgg16_original_validation": {
       "accuracy": 0.5309,

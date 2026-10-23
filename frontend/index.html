@@ -633,12 +633,10 @@
                 <p class="card-sub">Select a model and upload a resin symbol image.</p>
                 <div class="model-field"><label for="modelSelect">Classification model</label><select
                         class="model-select" id="modelSelect">
-                        <option value="vgg16">VGG-16 · Recommended</option>
-                        <option value="vgg16_balanced">VGG-16 Balanced · Experimental</option>
-                        <option value="custom_cnn">Custom CNN</option>
+                        <option value="vgg16">VGG-16 · Recommended (65.4% Acc)</option>
+                        <option value="custom_cnn">Custom CNN (44.4% Acc)</option>
                     </select>
-                    <p class="model-note" id="modelNote">Best current tested result: 61.7% test accuracy · Macro-F1
-                        0.54.</p>
+                    <p class="model-note" id="modelNote">Best current tested result: 65.4% test accuracy · Macro-F1 0.6425.</p>
                 </div>
                 <div class="upload" id="dropzone">
                     <div class="upload-icon" id="uploadIcon">⇧</div>
@@ -704,8 +702,8 @@
     </div>
     <script>
         const API_BASE = '';
-        const MODEL_LABELS = { vgg16: 'VGG-16 · Recommended', vgg16_balanced: 'VGG-16 Balanced · Experimental', custom_cnn: 'Custom CNN' };
-        const MODEL_NOTES = { vgg16: 'Best current tested result: 61.7% test accuracy · Macro-F1 0.54.', vgg16_balanced: 'Experimental model. Validation macro-F1: 0.44; test evaluation is pending.', custom_cnn: 'Baseline model: 35.8% test accuracy · Macro-F1 0.25.' };
+        const MODEL_LABELS = { vgg16: 'VGG-16 · Recommended', custom_cnn: 'Custom CNN' };
+        const MODEL_NOTES = { vgg16: 'Best current tested result: 65.4% test accuracy · Macro-F1 0.6425.', custom_cnn: 'Baseline model: 44.4% test accuracy · Macro-F1 0.4139.' };
         const RESINS = {
             PET: { code: 1, full: 'Polyethylene terephthalate', steps: ['Separate PET from other plastics and remove caps, labels, and non-PET parts where required.', 'Rinse to remove leftover liquid or food; follow local sorting instructions.', 'The recycling facility sorts, shreds, washes, and processes flakes into recycled PET material.', 'Send only accepted PET items to the local collection or deposit system.'], note: 'PET bottles often have a clearer recycling route than trays or mixed-material packaging; check local rules.' },
             HDPE: { code: 2, full: 'High-density polyethylene', steps: ['Separate HDPE containers from other resin types and empty them.', 'Rinse residue and remove non-HDPE attachments where local guidance asks.', 'The facility sorts, grinds, washes, and melts HDPE for reuse.', 'Place it in the designated plastic stream only if your local program accepts that item.'], note: 'HDPE bottles and rigid containers are often recyclable, but acceptance depends on item type and local facilities.' },

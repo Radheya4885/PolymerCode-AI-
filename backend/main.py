@@ -45,7 +45,7 @@ MODEL_REGISTRY: Dict[str, Dict[str, Any]] = {
         "name": "VGG-16",
         "file": "vgg16_best.pt",
         "arch": "vgg16",
-        "description": "Standard transfer learning model. Highest tested accuracy (61.73%, macro-F1 0.5436).",
+        "description": "Standard transfer learning model. Highest tested accuracy (65.43%, macro-F1 0.6425).",
         "recommended": True,
     },
     "vgg16_balanced": {
@@ -61,7 +61,7 @@ MODEL_REGISTRY: Dict[str, Dict[str, Any]] = {
         "name": "Custom CNN",
         "file": "custom_cnn_best.pt",
         "arch": "custom_cnn",
-        "description": "Lightweight custom 4-block convolutional network (35.80% test accuracy).",
+        "description": "Lightweight custom 4-block convolutional network (44.44% test accuracy, macro-F1 0.4139).",
         "recommended": False,
     },
 }

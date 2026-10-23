@@ -26,8 +26,8 @@ Rebuild the matching architecture from src/model_architectures.py before
 loading weights. Only load pickle files from trusted sources.
 
 ## Reported initial results
-Custom CNN test: accuracy 35.80%, macro-F1 0.2532.
-Original VGG-16 test: accuracy 61.73%, macro-F1 0.5436.
+Custom CNN test: accuracy 44.44%, macro-F1 0.4139.
+Original VGG-16 test: accuracy 65.43%, macro-F1 0.6425.
 Balanced VGG-16 validation macro-F1: 0.4413.
 The balanced VGG-16 has not yet been evaluated on the test set.
 
